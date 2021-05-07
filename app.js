@@ -13,4 +13,7 @@ app.use(express.urlencoded({extended: false})) // This parse the url chunks for 
 app.use(adminRoutes)
 app.use(shopRoutes)
 
+app.use((req, res, next) => {
+    res.status(404).send('<h1>Page not found</h1>')
+})
 app.listen(3000) //It creates a server and listen to it
