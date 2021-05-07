@@ -1,14 +1,19 @@
 const http = require('http')
-const routes = require('./routes.js') // have to use a path because is a custome file
+const express = require('express')
 
-// This function will run for each request reaches our server (at createServer)
-// function rqListener (req, res) {
+const app = express() // Express is exported as a function
 
-// }
-// http.createServer(rqListener)
+// Midleware express functions:
 
-// This is the same function with diferent sintaxis for create a Server
-const server = http.createServer(routes) // now we use routes as a callback function
+app.use((req, res, next) => {
+    console.log('first middleware')
+    next() // if we don't call it, the code stops in this middleware, but with next function we can continue to the next middleware
+})
 
-// Listening to the server in an infinite loop (event loop)
+app.use((req, res, next) => {
+    console.log('second middleware')
+})
+
+const server = http.createServer(app) 
+
 server.listen(3000)
