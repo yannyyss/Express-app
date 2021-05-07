@@ -11,6 +11,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
     console.log('second middleware')
+    res.send('<h1>Hello</h1>') // with express you don't need to declare res.setHeader(...), it takes html by default
 })
 
-app.listen(3000)
+app.listen(3000) //It creates a server and listen to it
