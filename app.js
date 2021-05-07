@@ -10,7 +10,7 @@ const app = express() // Express is exported as a function
 
 app.use(express.urlencoded({extended: false})) // This parse the url chunks for all middlewares
 
-app.use(adminRoutes)
+app.use('/admin',adminRoutes) // Now only this routes has /admin at the beginning
 app.use(shopRoutes)
 
 app.use((req, res, next) => {
