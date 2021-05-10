@@ -1,11 +1,12 @@
 const express = require('express')
-const path = require('path')
-const routeDirectory = require('../utils/path')
+const adminData = require('./admin')
 
 const router = express.Router()
 
 router.get('/',(req, res) => { // It will executed just when "/" match exactly because of the get (if we use "use", match with "/---whatever")
-    res.sendFile(path.join(routeDirectory, 'views', 'shop.html')) // __dirname is a global variable whic hold the absolutely path 
+    console.log('adminData', adminData.products)
+    const products = adminData.products
+    res.render('shop', {prods: products, docTitle: 'Shop'})
 })
 
 module.exports = router
