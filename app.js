@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname,'public'))) // We use static method t
 app.use('/admin', adminData.routes) // Now only this routes has /admin at the beginning
 app.use(shopRoutes)
 
-app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname,'views', '404.html'))
+app.use((req, res) => {
+    res.status(404).render('404', {pageTitle: 'Page Not Found'})
 })
 app.listen(3000) //It creates a server and listen to it
