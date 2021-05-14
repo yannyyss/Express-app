@@ -1,42 +1,40 @@
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 
-// Global helper constants
+const p = path.join(
+  path.join(path.dirname(require.main.filename), 'data', 'products.json'),
+  'data',
+  'products.json'
+);
 
-const p = path.join(path.dirname(require.main.filename), 'data', 'products.json')
-
-// Helper functions
-const getProductsFromFile = callback => {
-        
-    fs.readFile(p, (err, fileContent) => {
-        if (err) {
-            return callback([])
-        }
-        callback(JSON.parse(fileContent))
-    })
-
-}
+const getProductsFromFile = cb => {
+  fs.readFile(p, (err, fileContent) => {
+    if (err) {
+      cb([]);
+    } else {
+      cb(JSON.parse(fileContent));
+    }
+  });
+};
 
 module.exports = class Product {
+  constructor(title, imageUrl, description, price) {
+    this.title = title;
+    this.imageUrl = imageUrl;
+    this.description = description;
+    this.price = price;
+  }
 
-    constructor(t) {
-        this.title = t
-    }
+  save() {
+    getProductsFromFile(products => {
+      products.push(this);
+      fs.writeFile(p, JSON.stringify(products), err => {
+        console.log(err);
+      });
+    });
+  }
 
-    save() {
-
-        getProductsFromFile(products => {
-            products.push(this)
-
-            fs.writeFile(p, JSON.stringify(products), (err) => {
-                console.log("Error",err)
-            })
-        })
-
-    }
-
-    static fetchAll(callback) { // static is a keyword to call the fetchAll function just in here, not like an instance
-        getProductsFromFile(callback)
-    }
-
-}
+  static fetchAll(cb) {
+    getProductsFromFile(cb);
+  }
+};
