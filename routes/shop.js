@@ -1,19 +1,24 @@
-const path = require('path');
+const path = require('path')
 
-const express = require('express');
+const express = require('express')
 
-const shopController = require('../controllers/shop');
+const shopController = require('../controllers/shop')
 
-const router = express.Router();
+const router = express.Router()
 
-router.get('/', shopController.getIndex);
+router.get('/', shopController.getIndex)
 
-router.get('/products', shopController.getProducts);
+router.get('/products', shopController.getProducts)
 
-router.get('/cart', shopController.getCart);
+// :productId is a dynamic segment, so, it's better to put at the bottom of the matchin routes to avoid the coincidence of /products/anything
+router.get('/products/:productId', shopController.getProduct)
 
-router.get('/orders', shopController.getOrders);
+router.get('/cart', shopController.getCart)
 
-router.get('/checkout', shopController.getCheckout);
+router.post('/cart', shopController.postCart)
 
-module.exports = router;
+router.get('/orders', shopController.getOrders)
+
+router.get('/checkout', shopController.getCheckout)
+
+module.exports = router
