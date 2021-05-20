@@ -7,7 +7,6 @@ const p = path.join(
     'cart.json'
 )
 
-
 module.exports = class Cart {
     
     static addProduct(id, product) {
@@ -64,7 +63,7 @@ module.exports = class Cart {
             }
 
             const updatedCart = {...JSON.parse(fileContent)}
-            
+
             const cartProductQty = updatedCart.products.find(prod => prod.id === id)
 
             updatedCart.products = updatedCart.products.filter(prod => prod.id !== id)
@@ -79,6 +78,16 @@ module.exports = class Cart {
             fs.writeFile(p, JSON.stringify(updatedCart), err => console.log("Error", err))
         })
 
+    }
+
+    static getCart(cb) {
+        fs.readFile(p, (err, fileContent) => {
+            const cart = JSON.parse(fileContent)
+            if (err) {
+                return cb(null)
+            }
+            cb(cart)
+        })
     }
 
 }
